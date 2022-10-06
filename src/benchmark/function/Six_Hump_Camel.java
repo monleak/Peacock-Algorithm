@@ -2,13 +2,11 @@ package benchmark.function;
 
 import benchmark.Function;
 
-public class Rosenbrock extends Function {
+public class Six_Hump_Camel extends Function {
     @Override
     public double getCost(double[] x){
         double result = 0;
-        for(int i=0;i<x.length-1;i++){
-            result += 100*Math.pow(x[i+1]-x[i],2) + Math.pow(x[i]-1,2);
-        }
+        result = 4*Math.pow(x[0],2) - 2.1*Math.pow(x[0],4) + Math.pow(x[0],6)/3 + x[0]*x[1] - 4*Math.pow(x[1],2) + 4*Math.pow(x[1],4);
         return result - this.Optimum;
     }
 }

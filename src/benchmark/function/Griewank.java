@@ -7,7 +7,7 @@ public class Griewank extends Function {
     public double getCost(double[] x){
         double result = 0;
         double sum=0,mul=1;
-        for(int i=0;i<this.dim;i++){
+        for(int i=0;i<x.length;i++){
             sum+=Math.pow(x[i]-100,2);
             mul*=Math.cos((x[i]-100)/Math.sqrt(i));
         }

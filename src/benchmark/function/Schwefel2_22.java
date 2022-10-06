@@ -7,7 +7,7 @@ public class Schwefel2_22 extends Function {
     public double getCost(double[] x){
         double sum = 0;
         double mul = 1;
-        for (int i=0;i<this.dim;i++) {
+        for (int i=0;i<x.length;i++) {
             sum += Math.abs(x[i]);
             mul *= Math.abs(x[i]);
         }
