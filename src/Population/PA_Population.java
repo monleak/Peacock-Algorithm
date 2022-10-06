@@ -19,7 +19,7 @@ public class PA_Population {
     public Individual best;
     public Task task;
 
-    public double[] Mating_Range;
+    public double[] Mating_Range; //Nếu kết quả không tốt cần sửa lại Mating_Range theo từng peacock
 
     public PA_Population(Task task){
         individuals = new ArrayList<Individual>();
@@ -145,5 +145,31 @@ public class PA_Population {
                 }
             }
         }
+    }
+    public void updateMating_Range(){
+        /*
+            Cập nhật Mating_Range nếu không có sự lai ghép nào trong thế hệ
+         */
+        for(int i=0;i<Mating_Range.length;i++){
+            Mating_Range[i] = Mating_Range[i]*Params.PARAM_EvolutionFactor[i];
+        }
+    }
+    public Individual laiGhep(IndivPeacock a,IndivPeahen b){
+        Individual child = new Individual();
+        for(int i=0;i< task.dim;i++){
+            double rand = Params.random.nextDouble();
+            if(rand<0.4)
+                child.setGene(i,a.getGene(i));
+            else if (rand<0.8)
+                child.setGene(i,b.getGene(i));
+            else
+                child.setGene(i,a.eye[i]);
+
+            //mutation
+            if(Params.random.nextDouble() < 0.1){
+                child.setGene(i,child.getGene(i)+(Params.random.nextDouble()-0.5)*Mating_Range[Params.random.nextInt(Mating_Range.length)-1]);
+            }
+        }
+        return child;
     }
 }

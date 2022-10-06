@@ -7,7 +7,7 @@ import java.util.ArrayList;
 
 public class IndivPeacock extends Individual {
     public double lekDis;
-
+    public double[] eye;
 
     public IndivPeacock(Individual indiv){
         this.setDim(indiv.getDim());
@@ -15,6 +15,7 @@ public class IndivPeacock extends Individual {
         this.setFitness(indiv.getFitness());
         this.setID(indiv.getID());
         this.lekDis = 0;
+        this.eye = this.getChromosome().clone();
     }
     public void move(double[] Mating_Range){
         for(int i=0;i<this.getDim();i++){
