@@ -10,10 +10,14 @@ public class TaskManager {
     public int TASKS_NUM; //Số lượng tác vụ có trong ID
     public ArrayList<Task> tasks; //Danh sách các tác vụ
 
-    public TaskManager() {
-        tasks = new ArrayList<Task>();
-        DIM = 0;
-        TASKS_NUM = 0;
+    public TaskManager(ArrayList<Task> tasks) {
+        this.tasks = tasks;
+        this.DIM=0;
+        for(int i=0;i<tasks.size();i++){
+            if(this.DIM < tasks.get(i).dim)
+                this.DIM = tasks.get(i).dim;
+        }
+        this.TASKS_NUM = tasks.size();
     }
 
     public void addTask(Task task) {
