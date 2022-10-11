@@ -81,9 +81,12 @@ public class PA_Population {
             for(int j=0;j<peacocks.size();j++){
                 double dis = calDistance(peahens.get(i),peacocks.get(j));
                 double A = peacocks.get(j).getFitness()/dis;
-                if(dis < peacocks.get(j).lekDis && peahens.get(i).A < A){
+                try {
+                    if(dis < peacocks.get(j).lekDis && peahens.get(i).follow.getFitness()/calDistance(peahens.get(i),peahens.get(i).follow) < A){
+                        peahens.get(i).follow = peacocks.get(j);
+                    }
+                }catch (Exception e){
                     peahens.get(i).follow = peacocks.get(j);
-                    peahens.get(i).A = A;
                 }
             }
         }
@@ -179,11 +182,14 @@ public class PA_Population {
             Nếu có thì sinh ra cá thể child (Quyết định giới tính dựa trên fitness)
          */
         for(int i=0;i<peahens.size();i++){
-            if(calDistance(peahens.get(i),peahens.get(i).follow) < peahens.get(i).follow.lekDis
+            if(calDistance(peahens.get(i),peahens.get(i).follow) < peahens.get(i).follow.lekDis*0.2
             && Attractiveness(peahens.get(i)) == peahens.get(i).follow.getID()){
                 //TODO: Đồng ý lai ghép
+                Individual child = Crossover(peahens.get(i).follow,peahens.get(i));
+
             }else {
                 //TODO: Không đồng ý lai ghép
+                peahens.get(i).follow = peacocks.get(Attractiveness(peahens.get(i)));
             }
         }
     }
@@ -203,6 +209,10 @@ public class PA_Population {
                 child.setGene(i,child.getGene(i)+(Params.random.nextDouble()-0.5)*Mating_Range[Params.random.nextInt(Mating_Range.length)-1]);
             }
         }
+        child.setID(Individual.counter++);
+        child.task = taskManager.getTask(taskIndex);
+        child.setDim(taskManager.DIM);
+        child.setFitness(taskManager.getTask(taskIndex).calculateFitnessValue(child.getChromosome()));
         return child;
     }
 }

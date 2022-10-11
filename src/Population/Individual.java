@@ -5,7 +5,7 @@ import util.Params;
 
 public class Individual implements Comparable<Individual> {
 
-    private static int counter = 0; //Đếm id của cá thể
+    public static int counter = 0; //Đếm id của cá thể
     private int individual_id;
 
     private int DIM; //số chiều trong không gian chung
