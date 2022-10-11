@@ -15,7 +15,7 @@ public class Peacock_Algorithm {
         this.pops = new ArrayList<PA_Population>();
         for (int i=0;i<taskManager.TASKS_NUM;i++){
             //Khởi tạo quần thể cho từng tác vụ
-            PA_Population sub_pop = new PA_Population(taskManager.getTask(i));
+            PA_Population sub_pop = new PA_Population(taskManager,i);
             pops.add(sub_pop);
         }
     }
@@ -55,6 +55,14 @@ public class Peacock_Algorithm {
                 stop=false;
 
                 //TODO: Viết xử lý tác vụ
+                //Peacock move
+                for(int idPeacock=0;idPeacock < pops.get(i).peacocks.size();idPeacock++){
+                    pops.get(i).peacocks.get(idPeacock).move(pops.get(i).Mating_Range);
+                }
+                //Peahen move
+                for(int idPeahen=0;idPeahen < pops.get(i).peahens.size();idPeahen++){
+                    pops.get(i).peahens.get(idPeahen).move();
+                }
 
                 while (Params.countEvals >= (recordCounter + 1) * evalsPerRecord) {
                     for (int j = 0; j < taskManager.TASKS_NUM; j++) {

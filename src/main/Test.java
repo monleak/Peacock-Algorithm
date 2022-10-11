@@ -18,9 +18,5 @@ public class Test {
         task.dim =10;
         task.LB = lb;
         task.UB = ub;
-
-        PA_Population population = new PA_Population(task);
-        population.randomInit();
-        population.setting();
     }
 }

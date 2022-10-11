@@ -19,5 +19,10 @@ public class IndivPeahen extends Individual {
         for(int i=0;i<this.getDim();i++){
             this.setGene(i,this.getGene(i) + (follow.getGene(i)-this.getGene(i))* Params.random.nextDouble());
         }
+
+        //Nếu peahen bắt đc 1 vị trí tốt hơn follow, vị trí đó được thêm vào eye lưu trũ trong follow
+        if(this.getFitness() < follow.getFitness()){
+            follow.addEye(this.getChromosome().clone(),this.getFitness());
+        }
     }
 }

@@ -1,5 +1,6 @@
 package Population;
 
+import benchmark.Task;
 import util.Params;
 
 public class Individual implements Comparable<Individual> {
@@ -7,28 +8,30 @@ public class Individual implements Comparable<Individual> {
     private static int counter = 0; //Đếm id của cá thể
     private int individual_id;
 
-    private int dim;
+    private int DIM; //số chiều trong không gian chung
     private double[] chromosome; //Gen
     private double fitness;
+    public Task task;
     public Individual(){
 
     }
-    public Individual(int dim) {
+    public Individual(int dim,Task task) {
         this.individual_id = Individual.counter++;
-        this.dim = dim;
+        this.DIM = dim;
         this.chromosome = new double[dim];
         this.fitness = Double.MAX_VALUE;
+        this.task = task;
     }
 
     public Individual(double[] chromosome) {
         this.individual_id = Individual.counter++;
-        this.dim = chromosome.length;
+        this.DIM = chromosome.length;
         this.chromosome = chromosome.clone();
         this.fitness = Double.MAX_VALUE;
     }
 
     public void randomInit() {
-        for (int i = 0; i < dim; i++) {
+        for (int i = 0; i < DIM; i++) {
             this.chromosome[i] = Params.random.nextDouble();
         }
     }
@@ -49,11 +52,11 @@ public class Individual implements Comparable<Individual> {
     }
 
     public int getDim() {
-        return dim;
+        return DIM;
     }
 
     public void setDim(int dim) {
-        this.dim = dim;
+        this.DIM = dim;
     }
 
     public double[] getChromosome() {
