@@ -9,6 +9,7 @@ import java.util.Comparator;
 public class IndivPeacock extends Individual {
     public double lekDis;
     public ArrayList<Eye> eyes;
+    public int countGeneration; //Đếm số thế hệ không xảy ra lai ghép
 
     public IndivPeacock(Individual indiv){
         this.setDim(indiv.getDim());
@@ -17,6 +18,7 @@ public class IndivPeacock extends Individual {
         this.setID(indiv.getID());
         this.lekDis = 0;
         this.eyes.add(new Eye(this.getChromosome().clone(),this.getFitness()));
+        this.countGeneration = 0;
     }
     public void move(double[] Mating_Range){
         double[] newChromosome = new double[this.getDim()];

@@ -13,6 +13,7 @@ public class Params {
     public static final double EPSILON = 5e-7; //điểm tối ưu (coi như bằng 0)
     public static int recordsNum = 1000; //Số lần ghi lại kết quả
     public static final int REPT = 30; //Số lần chạy
+    public static int G = 5;
 
     public static Random random;
     public static int countEvals = 0;

@@ -91,6 +91,10 @@ public class PA_Population {
             }
         }
     }
+    public void update(){
+        //TODO: Check số thế hệ không lai ghép của peacock
+        //TODO: Tăng countGeneration của peacock nếu không xảy ra peacock
+    }
     public void sortPop() {
         /*
           Sắp xếp lại các cá thể trong quần thể
@@ -154,13 +158,21 @@ public class PA_Population {
             }
         }
     }
-    public void updateMating_Range(){
+    public void noSuccessScenario(){
         /*
-            Cập nhật Mating_Range nếu không có sự lai ghép nào trong thế hệ
+            Kiểm tra số thế hệ không lai ghép của peacock
          */
-        for(int i=0;i<Mating_Range.length;i++){
-            Mating_Range[i] = Mating_Range[i]*Params.PARAM_EvolutionFactor[i];
+        for(int i=0;i<peacocks.size();i++){
+            if(peacocks.get(i).countGeneration > Params.G){
+                updateMating_Range(i);
+            }
         }
+    }
+    public void updateMating_Range(int idPeacock){
+        /*
+            Cập nhật Mating_Range nếu không có sự lai ghép nào sau G thế hệ
+         */
+        Mating_Range[idPeacock] = Mating_Range[idPeacock]*Params.PARAM_EvolutionFactor[Params.random.nextInt(Params.PARAM_EvolutionFactor.length)-1];
     }
     public int Attractiveness(IndivPeahen peahen){
         double currentA = peahen.follow.getFitness()/calDistance(peahen,peahen.follow);
@@ -172,6 +184,13 @@ public class PA_Population {
         }
         return peahen.follow.getID();
     }
+    public int findPeacock(IndivPeacock a){
+        for(int i=0;i<peacocks.size();i++){
+            if(a.getID() == peacocks.get(i).getID())
+                return i;
+        }
+        return -1;
+    }
     public void checkCrossover(){
         /*
             Kiểm tra xem peahen có đồng ý lai ghép với peacock không ?
@@ -182,14 +201,18 @@ public class PA_Population {
             Nếu có thì sinh ra cá thể child (Quyết định giới tính dựa trên fitness)
          */
         for(int i=0;i<peahens.size();i++){
-            if(calDistance(peahens.get(i),peahens.get(i).follow) < peahens.get(i).follow.lekDis*0.2
-            && Attractiveness(peahens.get(i)) == peahens.get(i).follow.getID()){
-                //TODO: Đồng ý lai ghép
-                Individual child = Crossover(peahens.get(i).follow,peahens.get(i));
+            try{
+                if(calDistance(peahens.get(i),peahens.get(i).follow) < peahens.get(i).follow.lekDis*Mating_Range[findPeacock(peahens.get(i).follow)]
+                        && Attractiveness(peahens.get(i)) == peahens.get(i).follow.getID()){
+                    //TODO: Đồng ý lai ghép
+                    Individual child = Crossover(peahens.get(i).follow,peahens.get(i));
 
-            }else {
-                //TODO: Không đồng ý lai ghép
-                peahens.get(i).follow = peacocks.get(Attractiveness(peahens.get(i)));
+                }else {
+                    //TODO: Không đồng ý lai ghép
+                    peahens.get(i).follow = peacocks.get(Attractiveness(peahens.get(i)));
+                }
+            }catch (Exception e){
+                System.err.println("Lỗi ở hàm checkCrossover: "+e.getMessage());
             }
         }
     }
